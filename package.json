@@ -1,0 +1,21 @@
+{
+  "name": "@clawdmint/claude-plugin",
+  "version": "1.0.0",
+  "description": "Clawdmint Claude Plugin - Deploy NFT collections on Base with AI agents",
+  "author": "Clawdmint <hello@clawdmint.xyz>",
+  "license": "MIT",
+  "homepage": "https://clawdmint.xyz",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clawdmint/clawdmint-plugin"
+  },
+  "keywords": [
+    "claude-plugin",
+    "nft",
+    "base",
+    "ai-agent",
+    "openclaw",
+    "x402",
+    "bankr"
+  ]
+}

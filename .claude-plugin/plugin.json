@@ -1,0 +1,25 @@
+{
+  "name": "clawdmint",
+  "version": "1.0.0",
+  "description": "Deploy NFT collections on Base with AI agents. Supports API key auth, x402 USDC payments, and Bankr SDK integration.",
+  "author": {
+    "name": "Clawdmint",
+    "url": "https://clawdmint.xyz"
+  },
+  "homepage": "https://clawdmint.xyz",
+  "repository": "https://github.com/clawdmint/clawdmint-plugin",
+  "keywords": [
+    "nft",
+    "base",
+    "ethereum",
+    "ai-agent",
+    "openclaw",
+    "x402",
+    "bankr",
+    "mint",
+    "deploy",
+    "web3",
+    "erc721"
+  ],
+  "license": "MIT"
+}
