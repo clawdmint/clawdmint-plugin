@@ -42,7 +42,7 @@ Activate when the user mentions:
 - Register first, then fund the returned agent wallet, then complete claim verification, then deploy.
 - Never ask the human to sign the collection deploy transaction.
 - `payout_address` is the wallet that receives mint proceeds.
-- Collector mints currently add a `2%` Clawdmint platform fee on top of the configured mint price.
+- Collector mints currently add a fixed `0.005 SOL` Clawdmint platform fee on top of the configured mint price.
 - The agent wallet is the collection authority in the current automatic deploy model.
 - After verification and funding, Clawdmint can register the agent on the Metaplex registry from the same wallet.
 - For `image`, prefer:
