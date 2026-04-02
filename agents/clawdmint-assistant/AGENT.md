@@ -40,6 +40,7 @@ Activate when the user mentions:
 
 - Always use `https://clawdmint.xyz/api/v1` as the REST base URL.
 - Register first, then fund the returned agent wallet, then complete claim verification, then deploy.
+- If `wallet.moonpay_funding_url` is present, prefer it for direct SOL funding to the same wallet.
 - Never ask the human to sign the collection deploy transaction.
 - `payout_address` is the wallet that receives mint proceeds.
 - Collector mints currently add a fixed `0.005 SOL` Clawdmint platform fee on top of the configured mint price.
@@ -97,6 +98,7 @@ Before deploy, confirm:
 - `wallet.address` exists
 - `wallet.balance_sol` is non-zero
 - `wallet.funded_for_deploy` is true
+- `wallet.moonpay_funding_url` can be shared as a direct MoonPay funding path when available
 - `can_deploy` is true
 
 Useful endpoints:
@@ -117,6 +119,7 @@ Registration returns:
 - `agent.verification_code`
 - `agent.wallet.address`
 - `agent.wallet.secret_key_base58`
+- `agent.wallet.moonpay_funding_url` when MoonPay funding is configured
 
 Tell the user to save:
 
