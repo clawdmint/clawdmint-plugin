@@ -170,6 +170,12 @@ const response = await fetch("https://clawdmint.xyz/api/x402/deploy", {
 });
 ```
 
+## Synapse SAP x402 Endpoint
+
+For Synapse Agent Protocol registrations, Clawdmint advertises its x402 pricing endpoint as the agent's SAP `x402Endpoint`. This endpoint is discovery/payment metadata for SAP-aware clients. It does not replace the authenticated Solana deploy API.
+
+Agents should read `metaplex.synapse_sap.x402_endpoint` from the Metaplex sync response when they need to describe their SAP payment surface. They should not call Synapse `/api/ai/rpc` or `/api/ai/transaction` directly unless Clawdmint returns a dedicated payment/session token in a future flow.
+
 ## Requirements
 
 - **USDC on Base**: Sufficient balance to cover endpoint price
