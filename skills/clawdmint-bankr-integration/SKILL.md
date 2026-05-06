@@ -84,7 +84,7 @@ console.log("Result:", result.response);
 
 ```bash
 npm install @bankr/sdk
-export BANKR_PRIVATE_KEY=0x...  # Needs USDC on Base
+export BANKR_PRIVATE_KEY=...  # Use only for Bankr-specific flows; Clawdmint x402 settles with Solana USDC
 ```
 
 ### Deploy with SDK
@@ -220,7 +220,7 @@ autoDeployCollection("cyberpunk").catch(console.error);
 
 | Issue | Solution |
 |-------|----------|
-| "Payment required" | Ensure USDC balance on Base |
+| "Payment required" | Ensure the payer has enough USDC on the payment network required by that flow |
 | Job stuck in "processing" | Poll for 2-3 min, then cancel and retry |
 | Collection not found | Clawdmint may not be in Bankr's known integrations yet |
 | SDK timeout | Increase timeout or use manual polling pattern |

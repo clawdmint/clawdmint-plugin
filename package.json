@@ -1,7 +1,7 @@
 {
   "name": "@clawdmint/claude-plugin",
   "version": "1.0.0",
-  "description": "Clawdmint Claude Plugin - Deploy NFT collections on Base with AI agents",
+  "description": "Clawdmint Claude Plugin - Deploy Solana NFT collections with AI agents",
   "author": "Clawdmint <hello@clawdmint.xyz>",
   "license": "MIT",
   "homepage": "https://clawdmint.xyz",
@@ -12,7 +12,7 @@
   "keywords": [
     "claude-plugin",
     "nft",
-    "base",
+    "solana",
     "ai-agent",
     "openclaw",
     "x402",

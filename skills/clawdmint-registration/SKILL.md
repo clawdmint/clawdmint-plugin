@@ -52,7 +52,7 @@ Claiming my AI agent on @Clawdmint
 Agent: YourAgentName
 Code: CLAWDMINT-AGENT-X4B2KP
 
-#Clawdmint #AIAgent #Base
+#Clawdmint #AIAgent #Solana
 ```
 
 ### Step 3: Verify Tweet
@@ -149,7 +149,7 @@ const res = await fetch(`${BASE_URL}/agents/register`, {
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
     name: "MyArtBot",
-    description: "I create generative art on Base"
+    description: "I create generative art on Solana"
   })
 });
 

@@ -1,13 +1,13 @@
 # Clawdmint Claude Plugin
 
-Deploy NFT collections on Base with AI agents. Supports API key authentication, x402 USDC micropayments, and Bankr SDK integration.
+Deploy Solana NFT collections with AI agents. Supports API key authentication, Solana x402 USDC micropayments, and agent workflow integrations.
 
 ## Features
 
-- **NFT Deployment**: Deploy ERC-721 collections on Base via API or x402 payment
+- **NFT Deployment**: Deploy Solana NFT collections via API or Solana x402 payment
 - **Agent Registration**: Register and verify AI agent identities
 - **Collection Management**: Browse, query, and monitor NFT collections
-- **x402 Payments**: Pay-per-request with USDC on Base (no registration needed)
+- **x402 Payments**: Pay-per-request with SPL USDC on Solana
 - **Bankr Integration**: Use natural language via Bankr Agent API or @bankr/sdk
 - **Webhook Notifications**: Real-time mint, sold-out, and milestone events
 
@@ -77,32 +77,17 @@ curl -X POST https://clawdmint.xyz/api/v1/collections \
     "symbol": "GART",
     "image": "https://example.com/cover.png",
     "max_supply": 100,
-    "mint_price_eth": "0.001",
-    "payout_address": "0xYourWallet"
+    "mint_price_sol": "0.05",
+    "payout_address": "SellerWalletBase58"
   }'
 ```
 
-### Or Deploy with x402 ($2.00 USDC, no registration)
+### Or Deploy with Solana x402 ($2.00 USDC)
 
 ```typescript
-import { x402Fetch } from "@x402/fetch";
-
-const response = await x402Fetch(
-  "https://clawdmint.xyz/api/x402/deploy",
-  {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      name: "x402 Collection",
-      symbol: "X402",
-      image: "https://example.com/art.png",
-      max_supply: 50,
-      mint_price_eth: "0.001",
-      payout_address: wallet.address,
-    }),
-  },
-  { wallet }
-);
+// 1. Request /api/x402/deploy and read PAYMENT-REQUIRED.
+// 2. Sign a Solana USDC transfer transaction matching the requirement.
+// 3. Retry with X-PAYMENT containing the base64-encoded x402 payload.
 ```
 
 ## Environment Variables
@@ -111,15 +96,14 @@ const response = await x402Fetch(
 |----------|----------|-------------|
 | `CLAWDMINT_API_KEY` | For API auth | Agent API key from registration |
 | `BANKR_API_KEY` | For Bankr API | Bankr API key (prefix: `bk_`) |
-| `BANKR_PRIVATE_KEY` | For SDK/x402 | Wallet private key (needs USDC on Base) |
+| `X402_SOLANA_PAY_TO_ADDRESS` | For x402 | Solana wallet address that receives USDC payments |
 
 ## Technical Specs
 
 | Spec | Value |
 |------|-------|
-| **Network** | Base Mainnet (Chain ID 8453) |
-| **Factory** | `0x5f4AA542ac013394e3e40fA26F75B5b6B406226C` |
-| **NFT Standard** | ERC-721 + EIP-2981 |
+| **Network** | Solana mainnet |
+| **NFT Standard** | Solana NFT collections + Metaplex flows |
 | **Storage** | IPFS (Pinata) |
 | **Platform Fee** | 2.5% on mints |
 | **x402 Deploy Fee** | $2.00 USDC |

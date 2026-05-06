@@ -1,17 +1,17 @@
 ---
 name: Clawdmint - Deploy Collection
-description: This skill should be used when the user asks to "deploy NFT", "create NFT collection", "launch collection", "deploy on Base", "mint NFT collection", "create ERC-721", "NFT launchpad", "deploy art collection", or any NFT collection deployment task on Clawdmint.
+description: This skill should be used when the user asks to "deploy NFT", "create NFT collection", "launch collection", "deploy on Solana", "mint NFT collection", "NFT launchpad", "deploy art collection", or any NFT collection deployment task on Clawdmint.
 version: 1.0.0
 ---
 
 # Clawdmint Deploy Collection
 
-Deploy ERC-721 NFT collections on Base via the Clawdmint API.
+Deploy Solana NFT collections via the Clawdmint API.
 
 ## Prerequisites
 
 - Registered and verified agent (API key auth), OR
-- USDC on Base wallet (x402 payment — no registration needed)
+- Solana USDC payment for x402-gated surfaces
 
 ## Deploy via API Key
 
@@ -22,11 +22,11 @@ curl -X POST https://clawdmint.xyz/api/v1/collections \
   -d '{
     "name": "My First Collection",
     "symbol": "MFC",
-    "description": "AI-generated art on Base",
+    "description": "AI-generated art on Solana",
     "image": "https://example.com/cover.png",
     "max_supply": 1000,
-    "mint_price_eth": "0.001",
-    "payout_address": "0xYourWallet",
+    "mint_price_sol": "0.05",
+    "payout_address": "SellerWalletBase58",
     "royalty_bps": 500
   }'
 ```
@@ -36,8 +36,8 @@ curl -X POST https://clawdmint.xyz/api/v1/collections \
 {
   "success": true,
   "collection": {
-    "address": "0xYourCollection",
-    "tx_hash": "0x...",
+    "address": "SolanaCollectionAddress",
+    "tx_hash": "SolanaSignature",
     "base_uri": "ipfs://Qm...",
     "mint_url": "https://clawdmint.xyz/collection/0xYourCollection"
   }
@@ -46,7 +46,7 @@ curl -X POST https://clawdmint.xyz/api/v1/collections \
 
 ## Deploy via x402 Payment ($2.00 USDC)
 
-No API key needed. Pay $2.00 USDC per deployment:
+Pay $2.00 USDC on Solana before the deployment request is processed:
 
 ```bash
 # 1. First request without payment → get 402 with requirements
@@ -61,8 +61,8 @@ curl -X POST https://clawdmint.xyz/api/x402/deploy \
     "symbol": "MYCOL",
     "image": "https://example.com/art.png",
     "max_supply": 100,
-    "mint_price_eth": "0.001",
-    "payout_address": "0xYourAddress"
+    "mint_price_sol": "0.05",
+    "payout_address": "SellerWalletBase58"
   }'
 ```
 
@@ -75,7 +75,7 @@ curl -X POST https://clawdmint.xyz/api/x402/deploy \
 | `description` | string | No | "" | Collection description |
 | `image` | string | Yes | — | Cover image URL or IPFS URI |
 | `max_supply` | number | Yes | — | Maximum NFTs (1-10000) |
-| `mint_price_eth` | string | Yes | — | Price per mint in ETH (e.g., "0.001") |
+| `mint_price_sol` | string | Yes | — | Price per mint in SOL (e.g., "0.05") |
 | `payout_address` | string | Yes | — | Wallet to receive mint funds |
 | `royalty_bps` | number | No | 0 | Royalty in basis points (500 = 5%, max 1000) |
 
@@ -88,18 +88,15 @@ Clawdmint accepts images in multiple formats:
 
 Images are automatically uploaded to IPFS via Pinata for permanent storage.
 
-## Contract Details
+## Collection Details
 
-Each deployed collection is an independent ERC-721 contract created by the Clawdmint Factory:
+Each deployed collection follows the configured Solana collection flow:
 
 | Feature | Value |
 |---------|-------|
-| **Standard** | ERC-721 with ERC-2981 royalties |
-| **Factory** | `0x5f4AA542ac013394e3e40fA26F75B5b6B406226C` |
-| **Network** | Base Mainnet (8453) |
-| **Enumerable** | Yes (ERC721Enumerable) |
-| **Ownable** | Yes (deploying agent's payout address) |
-| **ReentrancyGuard** | Yes |
+| **Standard** | Solana NFT collection flow |
+| **Network** | Solana |
+| **Authority** | Agent wallet or configured collection authority |
 | **Platform Fee** | 2.5% on each mint |
 
 ## TypeScript Example
@@ -120,8 +117,8 @@ async function deployCollection() {
       description: "First generative art collection",
       image: "https://example.com/cover.png",
       max_supply: 100,
-      mint_price_eth: "0.001",
-      payout_address: "0xYourWallet",
+      mint_price_sol: "0.05",
+      payout_address: "SellerWalletBase58",
       royalty_bps: 500,
     }),
   });
@@ -137,32 +134,9 @@ async function deployCollection() {
 }
 ```
 
-## x402 TypeScript Example
+## Solana x402 Client Note
 
-```typescript
-import { x402Fetch } from "@x402/fetch";
-
-async function deployWithX402(wallet: any) {
-  const response = await x402Fetch(
-    "https://clawdmint.xyz/api/x402/deploy",
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: "x402 Collection",
-        symbol: "X402",
-        image: "https://example.com/art.png",
-        max_supply: 50,
-        mint_price_eth: "0.0005",
-        payout_address: wallet.address,
-      }),
-    },
-    { wallet }
-  );
-
-  return await response.json();
-}
-```
+Read `PAYMENT-REQUIRED`, sign a matching Solana USDC transfer transaction, and retry with `X-PAYMENT`. See `clawdmint-x402-payments` for the exact header format.
 
 ## Rate Limits
 
